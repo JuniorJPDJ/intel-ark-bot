@@ -1,2 +1,3 @@
 telethon[cryptg]
 pyyaml
+aiohttp[speedups]
