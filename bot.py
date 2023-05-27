@@ -1,11 +1,13 @@
 import asyncio
 import logging
+import os
 
 import aiohttp
 from telethon import TelegramClient, events
 from telethon.tl.custom import InlineBuilder
 
 import yaml
+
 
 def env_constructor(loader, node):
     return os.environ.get(loader.construct_scalar(node), None)
@@ -31,10 +33,9 @@ async def main(config):
             
 
             try:
-                resp = await http_sess.get("https://ark.intel.com/libs/apps/intel/arksearch/autocomplete", params={
+                resp = await http_sess.get("https://ark.intel.com/libs/apps/intel/arksearch/apigeeautocomplete.json", params={
                     "_charset_": "UTF-8",
                     "locale": "en_us",
-                    "currentPageUrl": "https://ark.intel.com/content/www/us/en/ark.html",
                     "input_query": event.text
                 })
                 results = await resp.json()
@@ -57,4 +58,3 @@ if __name__ == '__main__':
     with open("config.yml", 'r') as f:
         config = yaml.safe_load(f)
     asyncio.get_event_loop().run_until_complete(main(config))
-
